@@ -57,7 +57,7 @@ const DATA = {"CHAPTERS":[{"n":1,"name":"Just Like Paradise","place":"Key Lento"
 const done = JSON.parse(localStorage.getItem("vicewire-public") || "{}");
 let chapter = 1;
 let tab = "path";
-const tabs = [["path","Story"],["choices","Choices"],["field","100%"],["people","Strangers"],["clips","Clips"]];
+const tabs = [["path","Story"],["choices","Choices"],["field","100%"],["people","Strangers"],["clips","Clips"],["board","Board"]];
 function save(id){ done[id]=!done[id]; localStorage.setItem("vicewire-public", JSON.stringify(done)); render(); }
 function esc(s){ return String(s??"").replace(/[&<>]/g, c => ({'&':'&','<':'<','>':'>'}[c])); }
 function clip(id){ return DATA.CLIPS.find(c => c.id===id); }
@@ -91,16 +91,38 @@ function render(){
   } else if (tab==="people") {
     html += DATA.STRANGERS.filter(s => !chapter || String(s.chapter).includes(String(chapter)) || s.chapter==="any").map(s =>
       '<article class="card"><h2>'+esc(s.name)+'</h2><p class="reward">'+esc(s.tag)+(s.missable?' · missable':'')+'</p><p>'+esc(s.who)+'</p><p>'+s.quests.map(esc).join("<br/>")+'</p><p class="muted">'+esc(s.note)+'</p></article>').join("");
-  } else {
+  } else if (tab==="clips") {
     html += DATA.CLIPS.map(c => '<article class="card"><h2>'+esc(c.title)+'</h2><p class="muted">'+esc(c.channel)+' · '+esc(c.minutes)+'</p>'+watchOf({clipIds:[c.id]})+'</article>').join("");
+  } else if (tab==="board") {
+    html = '<article class="card"><h2>Crew board</h2><p class="muted">Tips stay on the site for everyone. Posting confirms on GitHub so the board cannot be wiped by a stranger. A free GitHub login is the account.</p><textarea id="tip" rows="4" style="width:100%;margin-top:8px;background:#080612;color:#f6efe6;border:1px solid #3a2c52;border-radius:8px;padding:8px;font:inherit" placeholder="Where it is, what you get, which chapter."></textarea><p><button type="button" id="post-tip">Post tip</button></p></article><div id="tips"><p class="muted">Loading tips…</p></div>';
   }
   root.innerHTML = html;
+  if (tab==="board") loadTips();
+}
+async function loadTips(){
+  const box = document.getElementById("tips");
+  if (!box) return;
+  try {
+    const res = await fetch("https://api.github.com/repos/kam11s/vicewire/issues?labels=tip&state=open&per_page=30");
+    const issues = await res.json();
+    const rows = Array.isArray(issues) ? issues.filter(i => !i.pull_request) : [];
+    box.innerHTML = rows.length ? rows.map(i => '<article class="card"><h2>'+esc(i.title)+'</h2><p>'+esc(i.body||"")+'</p><p class="muted">'+esc(i.user && i.user.login)+'</p></article>').join("") : '<p class="muted">No tips yet.</p>';
+  } catch (e) {
+    box.innerHTML = '<p class="muted">Tips did not load. Refresh in a minute.</p>';
+  }
 }
 document.body.addEventListener("click", (e) => {
   const ch = e.target.closest("[data-ch]");
   const tb = e.target.closest("[data-tab]");
   if (ch) { chapter = Number(ch.dataset.ch); render(); }
   if (tb) { tab = tb.dataset.tab; render(); }
+  if (e.target.id === "post-tip") {
+    const text = (document.getElementById("tip").value || "").trim();
+    if (!text) return;
+    const title = text.split("\n")[0].slice(0, 80);
+    const url = "https://github.com/kam11s/vicewire/issues/new?labels=tip&title=" + encodeURIComponent(title) + "&body=" + encodeURIComponent(text);
+    window.open(url, "_blank", "noopener");
+  }
 });
 document.body.addEventListener("change", (e) => {
   if (e.target.dataset.id) save(e.target.dataset.id);
