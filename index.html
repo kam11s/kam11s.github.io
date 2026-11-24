@@ -2,13 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Last Free Roam — unofficial Leonida guide</title>
-<meta name="description" content="Unofficial fan guide to Leonida: chapter locks, rewards, choices, and clips."/>
-<link rel="icon" href="favicon.svg"/>
-<meta property="og:title" content="Last Free Roam"/>
-<meta property="og:description" content="Unofficial fan guide to Leonida."/>
-<meta property="og:image" content="https://vicewirehub.com/og.jpg"/>
+<meta name="description" content="Unofficial GTA 6 fan guide: what to grab before each chapter locks, rewards, choices and creator clips, with story spoilers hidden until you tap."/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="canonical" href="https://vicewirehub.com/"/>
+<meta name="theme-color" content="#080612"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Last Free Roam"/>
+<meta property="og:url" content="https://vicewirehub.com/"/>
+<meta property="og:title" content="Last Free Roam: unofficial GTA 6 chapter guide"/>
+<meta property="og:description" content="What to grab before each chapter locks. Story spoilers stay hidden until you tap."/>
+<meta property="og:image" content="https://vicewirehub.com/og-lfr.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Last Free Roam, unofficial Leonida guide"/>
+<meta name="twitter:card" content="summary_large_image"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
@@ -22,9 +32,10 @@
   .mark { width:30px; height:30px; flex:none; display:block; }
   .brand h1 { font-size:24px; line-height:1; }
   .brand small { color:var(--muted); font-size:11px; }
-  .pills { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+  .pills { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; overscroll-behavior-x:contain; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; }
+  .pills button { scroll-snap-align:start; }
   .pills::-webkit-scrollbar { display:none; }
-  .pills button { flex:none; background:transparent; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:6px 12px; font:inherit; font-size:13px; cursor:pointer; white-space:nowrap; }
+  .pills button { flex:none; min-height:44px; background:transparent; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:6px 12px; font:inherit; font-size:13px; cursor:pointer; white-space:nowrap; }
   .pills button.on { color:var(--fg); border-color:var(--pink); background:#ff2e9722; }
   #chapters { flex:1; min-width:0; }
   .hero { background:radial-gradient(120% 140% at 0% 0%,#ff2e9733,transparent 55%), radial-gradient(120% 140% at 100% 100%,#5cefff22,transparent 55%), linear-gradient(90deg,#080612f2,#080612a0), var(--hero) center/cover; border-bottom:1px solid var(--line); }
@@ -43,8 +54,8 @@
   .card { border:1px solid var(--line); background:var(--card); border-radius:14px; padding:12px 14px; min-width:0; }
   .card.isdone { opacity:.55; }
   .card h3 { font-size:21px; line-height:1.05; }
-  .row { display:grid; grid-template-columns:22px 1fr; gap:10px; align-items:start; }
-  .row input { width:18px; height:18px; margin:3px 0 0; accent-color:var(--pink); }
+  .row { display:grid; grid-template-columns:26px 1fr; gap:10px; align-items:start; }
+  .row input { width:24px; height:24px; margin:3px 0 0; accent-color:var(--pink); }
   .meta { display:flex; gap:6px; align-items:center; margin:0 0 4px; flex-wrap:wrap; }
   .tier { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; border-radius:999px; padding:2px 8px; border:1px solid currentColor; }
   .tier.critical { color:var(--pink); background:#ff2e9722; }
@@ -57,7 +68,7 @@
   .detail { color:var(--muted); margin:6px 0 0; font-size:14px; }
   details.more summary { cursor:pointer; color:var(--muted); font-size:13px; margin-top:6px; }
   .watch { list-style:none; padding:0; margin:8px 0 0; display:grid; gap:4px; }
-  .watch a { display:grid; grid-template-columns:auto 1fr; gap:8px; align-items:baseline; text-decoration:none; color:var(--fg); background:var(--card2); border:1px solid var(--line); border-radius:10px; padding:6px 10px; font-size:13px; }
+  .watch a { min-height:44px; display:grid; grid-template-columns:auto 1fr; gap:8px; align-items:baseline; text-decoration:none; color:var(--fg); background:var(--card2); border:1px solid var(--line); border-radius:10px; padding:6px 10px; font-size:13px; }
   .watch a:hover { border-color:var(--cyan); }
   .t { font-weight:700; color:var(--cyan); font-variant-numeric:tabular-nums; white-space:nowrap; }
   .src { color:var(--muted); font-size:12px; }
@@ -65,22 +76,23 @@
   .muted { color:var(--muted); }
   .opt { margin:8px 0 0; }
   .empty { color:var(--muted); padding:8px 2px; }
-  .spoil { display:block; width:100%; margin:8px 0 0; background:var(--card2); border:1px dashed var(--line); color:var(--muted); border-radius:8px; padding:9px 12px; font:inherit; font-size:14px; text-align:left; cursor:pointer; min-height:40px; }
+  .spoil { display:block; width:100%; margin:8px 0 0; min-height:44px; background:var(--card2); border:1px dashed var(--line); color:var(--muted); border-radius:8px; padding:9px 12px; font:inherit; font-size:14px; text-align:left; cursor:pointer; min-height:40px; }
   .spoil b { color:var(--fg); font-weight:600; }
   .hidt { color:var(--muted); font-style:italic; }
-  .sptog { flex:none; margin-left:auto; background:transparent; color:var(--fg); border:1px solid var(--cyan); border-radius:999px; padding:6px 12px; font:inherit; font-size:13px; cursor:pointer; white-space:nowrap; min-height:34px; }
+  .sptog { flex:none; margin-left:auto; background:transparent; color:var(--fg); border:1px solid var(--cyan); border-radius:999px; padding:6px 12px; font:inherit; font-size:13px; cursor:pointer; white-space:nowrap; min-height:44px; }
   .sptog.on { border-color:var(--pink); color:var(--pink); }
   .spbanner { font-size:13px; color:var(--muted); margin:0 0 12px; }
   textarea, .board input[type=text], .board select { width:100%; background:#080612; color:var(--fg); border:1px solid var(--line); border-radius:8px; padding:8px; font:inherit; }
   .board .fields { display:grid; grid-template-columns:1fr 140px; gap:8px; margin-top:8px; }
   .btn { background:var(--pink); color:#1a0610; border:0; border-radius:8px; padding:8px 14px; font:inherit; font-weight:700; cursor:pointer; }
   .btn[disabled] { opacity:.45; cursor:not-allowed; }
-  .ghost { background:transparent; color:var(--muted); border:1px solid var(--line); border-radius:8px; padding:4px 10px; font:inherit; font-size:12px; cursor:pointer; }
+  .ghost { min-height:44px; min-width:44px; background:transparent; color:var(--muted); border:1px solid var(--line); border-radius:8px; padding:4px 10px; font:inherit; font-size:12px; cursor:pointer; }
   .hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
   .note { font-size:12px; color:var(--muted); margin:8px 0 0; }
   .tip p { margin:6px 0 0; white-space:pre-wrap; overflow-wrap:anywhere; }
   footer { border-top:1px solid var(--line); margin-top:28px; }
-  footer .wrap { padding-top:16px; padding-bottom:28px; font-size:12px; color:var(--muted); }
+  html { scroll-padding-top:calc(120px + env(safe-area-inset-top,0px)); }
+  footer .wrap { padding-top:16px; padding-bottom:calc(28px + env(safe-area-inset-bottom,0px)); font-size:12px; color:var(--muted); }
   footer p { margin:0 0 6px; max-width:760px; }
   .chk { font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; border-radius:999px; padding:2px 8px; }
   .chk.one { color:var(--gold); background:#ffd16618; }
@@ -106,7 +118,7 @@
     <button id="sptoggle" class="sptog" type="button" aria-pressed="false">Spoilers: hidden</button>
   </div>
 </header>
-<section class="hero" style="--hero:url(vice-hero.jpg)"><div class="wrap">
+<section class="hero" style="--hero:url(vice-hero.webp)"><div class="wrap">
   <h2>Don't leave the chapter holding the wrong thing.</h2>
   <p>The lock, the payout, and where a creator's video shows it. Your checkmarks stay on this device.</p>
 </div></section>
@@ -138,7 +150,7 @@ function isOpen(key){ return showSpoilers || revealed[key] === true; }
 function isSp(e, field){ return !isOpen(e.id) && ((DATA.SPOIL || {})[e.id] || []).includes(field); }
 function hid(key, what){ return '<button class="spoil" type="button" data-spoil="' + esc(key) + '"><b>' + esc(what) + '</b> · spoiler, tap to show</button>'; }
 const tabs = [["path","Story"],["choices","Choices"],["field","100%"],["people","Strangers"],["clips","Clips"],["board","Board"]];
-if (LIVE_API && document.getElementById("vw-lfg")) tabs.push(["crew","Find a crew"]);
+if (LIVE_API && document.getElementById("vw-lfg")) tabs.push(["crew","CityComs"]);
 const TIERS = ["critical","high","solid","flavor","skip"];
 const KIND = { chapter:"creator's chapter marker", said:"narrator says it here", whole:"whole video is this" };
 function save(id){ done[id] = !done[id]; try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {} render(); }
@@ -218,15 +230,15 @@ function render(){
         (uniq.length ? watchList(uniq) : watchList([{ id:c.id, start:0, shows:"Play from the start", kind:"" }])) + '</article>';
     }).join("") + '</div>';
   } else if (tab === "board") {
-    const open = !!LIVE_API;
+    const open = !!LIVE_API && location.protocol === "https:";
     html += '<article class="card board"><h3>Crew board</h3><p class="detail">Share a tip with everyone: where it is, what you get, which chapter. No account needed.</p>' +
       '<form id="tipform" autocomplete="off"><textarea id="tip" rows="3" maxlength="500" placeholder="Where it is, what you get, which chapter." ' + (open ? '' : 'disabled') + '></textarea>' +
       '<div class="fields"><input type="text" id="tipname" maxlength="24" placeholder="Name (optional)" ' + (open ? '' : 'disabled') + '/>' +
       '<select id="tipch" ' + (open ? '' : 'disabled') + '>' + DATA.CHAPTERS.map(ch => '<option value="' + ch.n + '"' + (ch.n === chapter ? ' selected' : '') + '>Chapter ' + ch.n + '</option>').join("") + '</select></div>' +
       '<div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" id="tipweb" tabindex="-1"/></label></div>' +
-      '<p style="margin:8px 0 0"><button class="btn" type="submit" ' + (open ? '' : 'disabled') + '>Post tip</button> <span id="tipmsg" class="note"></span></p></form>' +
-      '<p class="note">Posts are public. To stop spam, the board keeps your post, its time, and a scrambled (hashed) form of your IP address; the hash is deleted after 30 days. Links are not allowed. Use Report on any post to flag it or ask for it to be removed; a post with several reports is hidden until it is reviewed.</p></article>' +
-      '<div id="tips"><p class="empty">' + (open ? 'Loading tips…' : 'The board opens soon.') + '</p></div>';
+      '<p style="margin:8px 0 0"><button class="btn" type="submit" ' + (open ? '' : 'disabled') + '>Post tip</button> <span id="tipmsg" class="note">' + (LIVE_API && !open ? 'Posting opens once the site is on its secure (https) address.' : '') + '</span></p></form>' +
+      '<p class="note"><b>Posts are public, so leave out personal info</b> like real names, phone numbers, addresses or accounts. To stop spam, the board keeps your post, its time, and a scrambled (hashed) form of your IP address; the hash is deleted after 30 days. Links are not allowed. Use Report on any post to flag it or ask for it to be removed; a post with several reports is hidden until it is reviewed.</p></article>' +
+      '<div id="tips"><p class="empty">' + (open ? 'Loading tips…' : (LIVE_API ? 'Posting opens once the secure address is on.' : 'The board opens soon.')) + '</p></div>';
   }
   root.innerHTML = html;
   if (tab === "board" && LIVE_API) loadTips();
